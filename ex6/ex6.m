@@ -1,6 +1,5 @@
 %% Machine Learning Online Class
 %  Exercise 6 | Support Vector Machines
-%  sMwj39JIWUdVaNnq
 %  Instructions
 %  ------------
 % 

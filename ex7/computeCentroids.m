@@ -26,12 +26,18 @@ centroids = zeros(K, n);
 % Note: You can use a for-loop over the centroids to compute this.
 %
 
-
-
-
-
-
-
+for i = 1:K,  % 遍历所有中心
+    % 初始化
+    count = 0;
+    vec_sum = zeros(1, n);
+    for j = 1:m,  % 遍历训练集
+        if idx(j)  == i,  % 找到中心索引为i的所有样本
+            count += 1;
+            vec_sum += X(j, :);
+        end
+    end
+    centroids(i, :) = (1 / count) * vec_sum;
+end
 
 % =============================================================
 

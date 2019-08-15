@@ -21,11 +21,17 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
-
-
-
-
+for i = 1:size(X, 1),  % 遍历训练集
+    x_i = X(i, :);  % 1 * n
+    min_d = Inf;
+    for j = 1:K,  % 遍历中心
+        d = sum((centroids(j, :) - x_i) .^ 2);  % 计算欧氏距离
+        if d < min_d,  % 找到最近中心
+            min_d = d;
+            idx(i) = j;
+        end
+    end
+end
 
 % =============================================================
 
