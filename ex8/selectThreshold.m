@@ -26,9 +26,9 @@ for epsilon = min(pval):stepsize:max(pval)
     tp = sum(cvPredictions & yval);  % number of true positives
     fp = sum((cvPredictions == 1) & (yval == 0));  % number of false positives
     fn = sum((cvPredictions == 0) & (yval == 1));  % number of false negative
-    prec = tp / (tp + fp);
-    rec = tp / (tp + fn);
-    F1 = 2 * prec * rec / (prec + rec);
+    precison = tp / (tp + fp);
+    recall = tp / (tp + fn);
+    F1 = (2 * precison * recall) / (precison + recall);
 
     % =============================================================
 
