@@ -40,19 +40,31 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% compute cost
+rated = (X * Theta' - Y) .* (R == 1);  % n_m * n_u
+J = sum(sum(rated .^2)) / 2;
+J +=  (lambda / 2) * (sum(sum(Theta .^ 2)) + sum(sum(X .^ 2)));  % regularized term
 
+% compute gradient
+for i = 1:num_movies,
+    for k = 1:num_features,
+        for j = 1:num_users,
+            X_grad(i, k) += R(i, j) * (rated(i, j) * Theta(j, k));
+        end
+        X_grad(i, k) += lambda * X(i, k);  % regularized term
+        % X_grad(i, k) = sum(rated(i, :) .* R(i, :) .* Theta(:, k));
+    end
+end
 
-
-
-
-
-
-
-
-
-
-
-
+for j = 1:num_users,
+    for k = 1:num_features,
+        for i = 1:num_movies,
+            Theta_grad(j, k) += R(i, j) * rated(i, j) * X(i, k);
+        end
+        Theta_grad(j, k) += lambda * Theta(j, k);  % regularized term
+        % Theta_grad(j, k) = sum(rated(:, j) .* R(:, j) .* X(:, k));
+    end
+end
 
 
 % =============================================================
