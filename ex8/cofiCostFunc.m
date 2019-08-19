@@ -47,25 +47,20 @@ J +=  (lambda / 2) * (sum(sum(Theta .^ 2)) + sum(sum(X .^ 2)));  % regularized t
 
 % compute gradient
 for i = 1:num_movies,
-    for k = 1:num_features,
-        for j = 1:num_users,
-            X_grad(i, k) += R(i, j) * (rated(i, j) * Theta(j, k));
-        end
-        X_grad(i, k) += lambda * X(i, k);  % regularized term
-        % X_grad(i, k) = sum(rated(i, :) .* R(i, :) .* Theta(:, k));
-    end
+    idx = find(R(i, :) == 1);  % x
+    Theta_temp = Theta(idx, :);  % x * n
+    Y_temp = Y(i, idx);  % 1 * x
+    X_grad(i, :) = (X(i, :) * Theta_temp' - Y_temp) * Theta_temp ...
+        + lambda * X(i, :);  % regularized term
 end
 
 for j = 1:num_users,
-    for k = 1:num_features,
-        for i = 1:num_movies,
-            Theta_grad(j, k) += R(i, j) * rated(i, j) * X(i, k);
-        end
-        Theta_grad(j, k) += lambda * Theta(j, k);  % regularized term
-        % Theta_grad(j, k) = sum(rated(:, j) .* R(:, j) .* X(:, k));
-    end
+    idx = find(R(:, j) == 1);  % x
+    X_temp = X(idx, :);  % x * n
+    Y_temp = Y(idx, j);  % x * 1
+    Theta_grad(j, :) = (X_temp * Theta(j, :)' - Y_temp)' * X_temp ...
+        + lambda * Theta(j, :);  % regularized term
 end
-
 
 % =============================================================
 
